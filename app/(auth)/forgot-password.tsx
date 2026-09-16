@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { Button } from "heroui-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
@@ -54,8 +54,8 @@ const ForogotPassword = () => {
         {showOtp ? (
           <OTP />
         ) : (
-          <View className="h-full">
-            <View className="w-[85%] mx-auto gap-5 items-center justify-center flex-1 h-full">
+          <ScrollView className="h-full mt-10">
+            <View className="w-full mx-auto gap-5 items-center justify-center  flex-1 h-full">
               {/* Header */}
               <View className="w-full gap-2">
                 <Text className="text-2xl font-inter font-semibold">
@@ -95,12 +95,14 @@ const ForogotPassword = () => {
               </View>
               <Button
                 variant="primary"
+                // onPress={() => setShowOtp(true)}
                 className="bg-primary w-full mt-4 rounded-lg"
+                onPress={() => router.push("/change-password")}
               >
                 <Text className="text-white font-semibold">Send Code</Text>
               </Button>
             </View>
-          </View>
+          </ScrollView>
         )}
       </View>
     </SafeAreaView>

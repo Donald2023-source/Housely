@@ -25,7 +25,7 @@ export default function Onboarding({
       <View className="flex-1 gap-4 items-center justify-center">
         <Image source={item.image} resizeMode="contain" />
 
-        <Text className="text-4xl font-bold leading-11 w-[85%] mt-3 text-center mx-auto ">
+        <Text className="text-4xl font-bold leading-11 w-[90%] mt-3 text-center mx-auto ">
           {item.name}
         </Text>
         <Text className="tracking-wide  text-gray-500 font-light w-[85%] leading-relaxed text-center mx-auto">

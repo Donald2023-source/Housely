@@ -1,18 +1,27 @@
 import images from "@/constants/images";
+import { useSignUp } from "@/lib/tanstack/auth";
+import useAuth from "@/store/auth";
 import { RegisterSchema } from "@/types/validations";
 
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { Button, Checkbox } from "heroui-native";
+import { Button, Checkbox, useToast } from "heroui-native";
 import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
-type RegisterFormData = z.infer<typeof RegisterSchema>;
+export type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 const SignUp = () => {
   const router = useRouter();
@@ -32,25 +41,63 @@ const SignUp = () => {
   });
 
   const [isSelected, setIsSelected] = useState(false);
+  const signUp = useSignUp();
+  const { login } = useAuth();
+
+  const { toast } = useToast();
 
   const handleSignUp = async (data: RegisterFormData) => {
     if (!isSelected) {
-      console.log("Please accept the terms and conditions");
+      toast.show({
+        variant: "warning",
+        label: "Terms required",
+        description: "Please accept the terms and conditions",
+      });
       return;
     }
 
-    console.log("Signup data:", data);
+    try {
+      const result = await signUp.mutateAsync({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
 
-    // TODO: send data to your backend
-    // await axios.post(`${API_URL}/auth/register`, data);
+      console.log("Signup response:", result);
 
-    // After successful registration
-    // router.push("/sign-in");
+      toast.show({
+        variant: "success",
+        label: "Sign Up successful!",
+        description: "Welcome to Housely",
+        icon: <CheckIcon />,
+      });
+
+      login({
+        email: result.email,
+        name: result.name,
+        isSignedIn: true,
+      });
+
+      router.push("/(root)/(tabs)");
+    } catch (error: any) {
+      console.log("Signup error:", error.response?.data);
+
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.data?.message ||
+        "Something went wrong";
+
+      toast.show({
+        variant: "danger",
+        label: message,
+        description: "signup wasn't successful!",
+      });
+    }
   };
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="px-4 mt-10">
+      <ScrollView className="px-4 mt-10">
         {/* Back button */}
         <Ionicons onPress={() => router.back()} name="arrow-back" size={28} />
 
@@ -167,6 +214,7 @@ const SignUp = () => {
                 isSelected={isSelected}
                 onSelectedChange={setIsSelected}
                 variant="primary"
+                className="bg-gray-400"
               >
                 <Checkbox.Indicator className="bg-primary">
                   {({ isSelected }) =>
@@ -175,16 +223,8 @@ const SignUp = () => {
                 </Checkbox.Indicator>
               </Checkbox>
 
-              <Text className="font-inter text-lg">
-                Accept Terms and Conditions
-              </Text>
+              <Text className="font-inter">Accept Terms and Conditions</Text>
             </View>
-
-            {!isSelected && (
-              <Text className="text-gray-400 text-sm -mt-3">
-                You must accept the terms and conditions
-              </Text>
-            )}
 
             {/* Sign Up */}
             <Button
@@ -220,7 +260,7 @@ const SignUp = () => {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

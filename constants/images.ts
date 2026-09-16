@@ -3,6 +3,7 @@ const images = {
   img2: require("../assets/images/honb2.png"),
   img3: require("../assets/images/honb3.png"),
   logo: require("../assets/images/Housely_logo.png"),
-  googleIcon: require("../assets/images/google.png")
+  googleIcon: require("../assets/images/google.png"),
+  successImage: require("../assets/images/success.png"),
 };
 export default images;

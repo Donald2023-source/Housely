@@ -27,4 +27,16 @@ const LoginSchema = z.object({
     ),
 });
 
-export { RegisterSchema, LoginSchema };
+const ResetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .refine((val) => /[A-Z]/.test(val), "Must include an uppercase letter")
+    .refine((val) => /[0-9]/.test(val), "Must include a number")
+    .refine(
+      (val) => /[^A-Za-z0-9]/.test(val),
+      "Must include a special character",
+    ),
+});
+
+export { LoginSchema, RegisterSchema, ResetPasswordSchema };
