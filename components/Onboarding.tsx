@@ -1,5 +1,5 @@
 import { onboardingData } from "@/constants/Onboarding-data";
-import { OnboardingItem } from "@/types";
+import { OnboardingItem } from "@/types/index";
 import { useRouter } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 

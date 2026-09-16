@@ -1,126 +1,221 @@
 import images from "@/constants/images";
+import { RegisterSchema } from "@/types/validations";
+
 import { Ionicons } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Button, Checkbox } from "heroui-native";
 import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { z } from "zod";
+
+type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 const SignUp = () => {
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: "",
+      username: "",
+      password: "",
+    },
+  });
+
   const [isSelected, setIsSelected] = useState(false);
 
-  const handleSignUp = async () => {
-    console.log("Handle Signup");
+  const handleSignUp = async (data: RegisterFormData) => {
+    if (!isSelected) {
+      console.log("Please accept the terms and conditions");
+      return;
+    }
+
+    console.log("Signup data:", data);
+
+    // TODO: send data to your backend
+    // await axios.post(`${API_URL}/auth/register`, data);
+
+    // After successful registration
+    // router.push("/sign-in");
   };
 
   return (
     <SafeAreaView className="flex-1">
       <View className="px-4 mt-10">
+        {/* Back button */}
         <Ionicons onPress={() => router.back()} name="arrow-back" size={28} />
-        {/* form */}
+
+        {/* Form */}
         <View className="mt-5">
+          {/* Header */}
           <View className="w-[80%] mt-5 gap-2">
-            <Text className="text-2xl font-inter font-semibold ">
+            <Text className="text-2xl font-inter font-semibold">
               Register Account
             </Text>
+
             <Text className="text-gray-400 font-inter tracking-wide">
               Sign in with your email and password or social media to continue
             </Text>
           </View>
-          {/* Main form container*/}
+
+          {/* Main form */}
           <View className="mt-8 flex-col gap-5">
             {/* Email */}
             <View className="gap-2">
               <Text className="font-inter font-semibold">Email</Text>
-              <TextInput
-                placeholder="brokyln@gmail.com"
-                placeholderTextColor={"#9DA4AE"}
-                className="border border-gray-300 p-5 rounded-xl"
-                keyboardType="email-address"
+
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="brokyln@gmail.com"
+                    placeholderTextColor="#9DA4AE"
+                    className="border border-gray-300 p-5 rounded-xl"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
               />
+
+              {errors.email && (
+                <Text className="text-red-500 text-sm">
+                  {errors.email.message}
+                </Text>
+              )}
             </View>
 
             {/* Username */}
             <View className="gap-2">
-              <Text className="font-inter font-semibold">UserName</Text>
-              <TextInput
-                placeholder="Username"
-                placeholderTextColor={"#9DA4AE"}
-                className="border border-gray-300 p-5 rounded-xl"
+              <Text className="font-inter font-semibold">Username</Text>
+
+              <Controller
+                control={control}
+                name="username"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Username"
+                    placeholderTextColor="#9DA4AE"
+                    className="border border-gray-300 p-5 rounded-xl"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
               />
+
+              {errors.username && (
+                <Text className="text-red-500 text-sm">
+                  {errors.username.message}
+                </Text>
+              )}
             </View>
 
             {/* Password */}
             <View className="gap-2">
               <Text className="font-inter font-semibold">Password</Text>
-              <View className="p-4 border border-gray-300 flex-row justify-between rounded-xl items-center">
-                <TextInput
-                  placeholder="**********"
-                  placeholderTextColor={"#9DA4AE"}
-                  className="tracking-widest rounded-lg"
-                  secureTextEntry={!showPassword}
-                />
-                {showPassword ? (
-                  <Ionicons
-                    onPress={() => setShowPassword(!showPassword)}
-                    size={25}
-                    name="eye-outline"
-                    color="gray"
-                  />
-                ) : (
-                  <Ionicons
-                    onPress={() => setShowPassword(!showPassword)}
-                    color="gray"
-                    size={25}
-                    name="eye-off-outline"
-                  />
-                )}
-              </View>
-            </View>
-            {/* Checkbox */}
 
+              <View className="p-4 border border-gray-300 flex-row justify-between rounded-xl items-center">
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="**********"
+                      placeholderTextColor="#9DA4AE"
+                      className="flex-1 tracking-widest rounded-lg"
+                      secureTextEntry={!showPassword}
+                      autoCapitalize="none"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+
+                <Ionicons
+                  onPress={() => setShowPassword(!showPassword)}
+                  size={25}
+                  color="gray"
+                  name={showPassword ? "eye-outline" : "eye-off-outline"}
+                />
+              </View>
+
+              {errors.password && (
+                <Text className="text-red-500 text-sm">
+                  {errors.password.message}
+                </Text>
+              )}
+            </View>
+
+            {/* Terms */}
             <View className="flex-row items-center gap-4">
               <Checkbox
                 isSelected={isSelected}
                 onSelectedChange={setIsSelected}
                 variant="primary"
-                className="bg-gray-400"
               >
                 <Checkbox.Indicator className="bg-primary">
                   {({ isSelected }) =>
-                    isSelected ? <CheckIcon color="white" /> : null
+                    isSelected ? <CheckIcon color="white" size={18} /> : null
                   }
                 </Checkbox.Indicator>
               </Checkbox>
+
               <Text className="font-inter text-lg">
                 Accept Terms and Conditions
               </Text>
             </View>
 
+            {!isSelected && (
+              <Text className="text-gray-400 text-sm -mt-3">
+                You must accept the terms and conditions
+              </Text>
+            )}
+
+            {/* Sign Up */}
             <Button
               variant="primary"
-              className="bg-primary mt-4 rounded-lg font-semibold"
+              className="bg-primary mt-4 rounded-lg"
+              onPress={handleSubmit(handleSignUp)}
             >
-              Sign In
+              <Text className="text-white font-semibold">Sign Up</Text>
             </Button>
 
-            <Text className="font-semibold text-center text-gray-400 ">Or</Text>
+            {/* Divider */}
+            <Text className="font-semibold text-center text-gray-400">Or</Text>
 
-            <View className="h-13 p-4 bg-primary/20 rounded-full mx-auto w-13">
+            {/* Google */}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="h-13 p-4 bg-primary/20 rounded-full mx-auto w-13"
+            >
               <Image className="h-full w-full" source={images.googleIcon} />
-            </View>
+            </TouchableOpacity>
 
-            <View className="text-gray-400 flex-row items-center justify-center">
-              <Text> Already Have an account? </Text>
-              <TouchableOpacity>
-                <Text className="font-semibold text-primary">Sign In</Text>
+            {/* Sign in */}
+            <View className="flex-row items-center justify-center">
+              <Text className="text-lg text-gray-400">
+                Already Have an account?{" "}
+              </Text>
+
+              <TouchableOpacity onPress={() => router.push("/sign-in")}>
+                <Text className="font-semibold text-lg text-primary">
+                  Sign In
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
