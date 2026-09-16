@@ -17,7 +17,7 @@ export default function Onboarding({
     <View className="p-3 h-full ">
       <TouchableOpacity
         onPress={() => router.push("/sign-in")}
-        className="py-3 px-5 rounded-2xl text-gray-300 border border-gray-400 ml-auto"
+        className="py-3 px-5 rounded-full text-gray-300 border border-gray-400 ml-auto"
       >
         <Text className="text-gray-800">Skip</Text>
       </TouchableOpacity>
@@ -25,7 +25,7 @@ export default function Onboarding({
       <View className="flex-1 gap-4 items-center justify-center">
         <Image source={item.image} resizeMode="contain" />
 
-        <Text className="text-4xl leading-11 w-[85%] mt-3 text-center mx-auto font-bold">
+        <Text className="text-4xl font-bold leading-11 w-[85%] mt-3 text-center mx-auto ">
           {item.name}
         </Text>
         <Text className="tracking-wide  text-gray-500 font-light w-[85%] leading-relaxed text-center mx-auto">

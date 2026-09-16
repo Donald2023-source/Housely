@@ -6,14 +6,11 @@ module.exports = {
 
   theme: {
     extend: {
-      colors: {
-        primary: "#7F56D9",
-      },
       fontFamily: {
-        inter: ["Inter"],
-        "inter-semibold": ["Inter-SemiBold"],
-        "inter-bold": ["Inter-Bold"],
-        sans: ["OpenSans_400Regular"],
+        inter: ["Inter_400Regular"],
+        "inter-medium": ["Inter_500Medium"],
+        "inter-semibold": ["Inter_600SemiBold"],
+        "inter-bold": ["Inter_700Bold"],
       },
     },
   },
