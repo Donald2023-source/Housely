@@ -32,11 +32,7 @@ const ForogotPassword = () => {
   const handleSignUp = async (data: RegisterFormData) => {
     console.log("Signup data:", data);
 
-    // TODO: send data to your backend
-    // await axios.post(`${API_URL}/auth/register`, data);
-
-    // After successful registration
-    // router.push("/sign-in");
+    
   };
 
   return (

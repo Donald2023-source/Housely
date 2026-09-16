@@ -1,13 +1,23 @@
 import images from "@/constants/images";
+import { useLogin } from "@/lib/tanstack/auth";
+import useAuth from "@/store/auth";
 import { LoginSchema } from "@/types/validations";
 
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native";
+import { Button, useToast } from "heroui-native";
+import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
@@ -29,14 +39,47 @@ const SignIn = () => {
     },
   });
 
-  const handleSignUp = async (data: LoginFormData) => {
-    console.log("Signup data:", data);
+  const loginUser = useLogin();
+  const { toast } = useToast();
+  const { login } = useAuth();
 
-    // TODO: send data to your backend
-    // await axios.post(`${API_URL}/auth/register`, data);
+  const handleSignIn = async (data: LoginFormData) => {
+    try {
+      const result = await loginUser.mutateAsync({
+        email: data.email,
+        password: data.password,
+      });
 
-    // After successful registration
-    // router.push("/sign-in");
+      console.log("Signup response:", result);
+
+      toast.show({
+        variant: "success",
+        label: "login successful!",
+        description: "Welcome to Housely",
+        icon: <CheckIcon />,
+      });
+
+      login({
+        email: result.email,
+        name: result.name,
+        isSignedIn: true,
+      });
+
+      router.push("/(root)/(tabs)");
+    } catch (error: any) {
+      console.log("Signup error:", error.response?.data);
+
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.data?.message ||
+        "Something went wrong";
+
+      toast.show({
+        variant: "danger",
+        label: message,
+        description: "signup wasn't successful!",
+      });
+    }
   };
 
   return (
@@ -137,7 +180,7 @@ const SignIn = () => {
             <Button
               variant="primary"
               className="bg-primary mt-4 rounded-lg"
-              onPress={handleSubmit(handleSignUp)}
+              onPress={handleSubmit(handleSignIn)}
             >
               <Text className="text-white font-semibold">Sign In</Text>
             </Button>
