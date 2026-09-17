@@ -11,6 +11,7 @@ import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   Text,
@@ -54,7 +55,7 @@ const SignIn = () => {
 
       toast.show({
         variant: "success",
-        label: "login successful!",
+        label: "Login successful!",
         description: "Welcome to Housely",
         icon: <CheckIcon />,
       });
@@ -165,7 +166,7 @@ const SignIn = () => {
                 onPress={() => router.push("/forgot-password")}
                 className="ml-auto py-1"
               >
-                <Text className="text-primary font-semibold">
+                <Text className="text-primary text-base font-semibold">
                   Forgot Password?
                 </Text>
               </TouchableOpacity>
@@ -182,7 +183,11 @@ const SignIn = () => {
               className="bg-primary mt-4 rounded-lg"
               onPress={handleSubmit(handleSignIn)}
             >
-              <Text className="text-white font-semibold">Sign In</Text>
+              {loginUser.isPending ? (
+                <ActivityIndicator color={"white"} />
+              ) : (
+                <Text className="text-white font-semibold">Sign In</Text>
+              )}
             </Button>
 
             <Text className="font-semibold text-center text-gray-400">Or</Text>
@@ -197,12 +202,12 @@ const SignIn = () => {
 
             {/* Sign in */}
             <View className="flex-row items-center gap-1 justify-center">
-              <Text className="text-lg text-gray-400">
+              <Text className="text-base text-gray-400">
                 Don&apos;t Have an account?
               </Text>
 
               <TouchableOpacity onPress={() => router.push("/sign-in")}>
-                <Text className="font-semibold text-lg text-primary">
+                <Text className="font-semibold text-base text-primary">
                   Sign Up
                 </Text>
               </TouchableOpacity>

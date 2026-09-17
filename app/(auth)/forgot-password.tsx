@@ -1,17 +1,25 @@
 import { OTP } from "@/components/OTP";
-import { LoginSchema } from "@/types/validations";
+import { requestResetCode } from "@/lib/tanstack/auth";
+import { EmailSchema } from "@/types/validations";
 
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native";
+import { Button, useToast } from "heroui-native";
+import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
-type RegisterFormData = z.infer<typeof LoginSchema>;
+export type resetTokenFormData = z.infer<typeof EmailSchema>;
 
 const ForogotPassword = () => {
   const router = useRouter();
@@ -19,20 +27,52 @@ const ForogotPassword = () => {
 
   const {
     control,
+    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<resetTokenFormData>({
+    resolver: zodResolver(EmailSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const handleSignUp = async (data: RegisterFormData) => {
-    console.log("Signup data:", data);
+  const requestCode = requestResetCode();
+  const { toast } = useToast();
+  const email = watch("email");
 
-    
+  const sendToken = async (data: resetTokenFormData) => {
+    try {
+      const result = await requestCode.mutateAsync({
+        email: data.email,
+      });
+
+      console.log("Signup response:", result);
+
+      if (result.success === true) {
+        setShowOtp(true);
+        return;
+      }
+
+      toast.show({
+        variant: "success",
+        label: `${result?.message}`,
+        icon: <CheckIcon />,
+      });
+    } catch (error: any) {
+      console.log("reset error:", error.response?.data);
+
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.data?.message ||
+        "Something went wrong";
+
+      toast.show({
+        variant: "danger",
+        label: message,
+        description: "reset token wasn't sent",
+      });
+    }
   };
 
   return (
@@ -48,7 +88,7 @@ const ForogotPassword = () => {
 
         {/* Emter Email */}
         {showOtp ? (
-          <OTP />
+          <OTP email={email} />
         ) : (
           <ScrollView className="h-full mt-10">
             <View className="w-full mx-auto gap-5 items-center justify-center  flex-1 h-full">
@@ -93,9 +133,14 @@ const ForogotPassword = () => {
                 variant="primary"
                 // onPress={() => setShowOtp(true)}
                 className="bg-primary w-full mt-4 rounded-lg"
-                onPress={() => router.push("/change-password")}
+                // onPress={() => router.push("/change-password")}
+                onPress={handleSubmit(sendToken)}
               >
-                <Text className="text-white font-semibold">Send Code</Text>
+                {requestCode.isPending ? (
+                  <ActivityIndicator color={"white"} />
+                ) : (
+                  <Text className="text-white font-semibold">Send Code</Text>
+                )}
               </Button>
             </View>
           </ScrollView>

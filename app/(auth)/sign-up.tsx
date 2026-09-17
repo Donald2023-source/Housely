@@ -11,6 +11,7 @@ import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   Text,
@@ -232,7 +233,11 @@ const SignUp = () => {
               className="bg-primary mt-4 rounded-lg"
               onPress={handleSubmit(handleSignUp)}
             >
-              <Text className="text-white font-semibold">Sign Up</Text>
+              {signUp?.isPending ? (
+                <ActivityIndicator />
+              ) : (
+                <Text className="text-white font-semibold">Sign Up</Text>
+              )}
             </Button>
 
             {/* Divider */}
@@ -248,12 +253,12 @@ const SignUp = () => {
 
             {/* Sign in */}
             <View className="flex-row items-center justify-center">
-              <Text className="text-lg text-gray-400">
+              <Text className="text-base text-gray-400">
                 Already Have an account?{" "}
               </Text>
 
               <TouchableOpacity onPress={() => router.push("/sign-in")}>
-                <Text className="font-semibold text-lg text-primary">
+                <Text className="font-semibold text-base text-primary">
                   Sign In
                 </Text>
               </TouchableOpacity>

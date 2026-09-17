@@ -39,4 +39,8 @@ const ResetPasswordSchema = z.object({
     ),
 });
 
-export { LoginSchema, RegisterSchema, ResetPasswordSchema };
+const EmailSchema = z.object({
+  email: z.email().min(3, "Email must not be less than 3 characters"),
+});
+
+export { EmailSchema, LoginSchema, RegisterSchema, ResetPasswordSchema };

@@ -1,12 +1,21 @@
+import { useChangePassword } from "@/lib/tanstack/auth";
+import useAuth from "@/store/auth";
 import { ResetPasswordSchema } from "@/types/validations";
 
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native";
+import { Button, useToast } from "heroui-native";
+import { CheckIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
@@ -27,17 +36,64 @@ export default function ChangePassword() {
     },
   });
 
+  const { toast } = useToast();
+  const { login } = useAuth();
+  const changePassword = useChangePassword();
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignUp = async (data: RegisterFormData) => {
-    console.log("Signup data:", data);
-    if (data.password != confirmPassword) return;
+  const resetPassword = async (data: RegisterFormData) => {
+    try {
+      console.log("Signup data:", data);
+      if (data.password != confirmPassword) {
+        toast.show({
+          variant: "danger",
+          label: "Passwords do not match!",
+          description: "Password change wasn't successul",
+        });
+      }
 
-    // TODO: send data to your backend
-    // await axios.post(`${API_URL}/auth/register`, data);
+      const result = await changePassword.mutateAsync({
+        password: data.password,
+      });
 
-    // After successful registration
-    // router.push("/sign-in");
+      if (changePassword.isError) {
+        console.log("error", changePassword.error);
+      }
+
+      if (result?.success === true) {
+        console.log(result);
+        toast.show({
+          variant: "success",
+          label: "Password changed successully!",
+          description: "Welcome back",
+          icon: <CheckIcon />,
+        });
+        login({
+          name: result?.user?.name,
+          email: result?.user?.email,
+          isSignedIn: true,
+        });
+        router.push("/(root)/(tabs)");
+      }
+      // TODO: send data to your backend
+      // await axios.post(`${API_URL}/auth/register`, data);
+
+      // After successful registration
+      // router.push("/sign-in");
+    } catch (error: unknown | any) {
+      console.log("Signup error:", error.response?.data);
+
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.data?.message ||
+        "Something went wrong";
+
+      toast.show({
+        variant: "danger",
+        label: message,
+        description: "signup wasn't successful!",
+      });
+    }
   };
 
   return (
@@ -116,10 +172,16 @@ export default function ChangePassword() {
             <Button
               variant="primary"
               className="bg-primary mt-4 rounded-lg"
-              //   onPress={handleSubmit(handleSignUp)}
-              onPress={() => router.push("/success")}
+              onPress={handleSubmit(resetPassword)}
+              // onPress={() => router.push("/success")}
             >
-              <Text className="text-white font-semibold">Change Password</Text>
+              {changePassword.isPending ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text className="text-white font-semibold">
+                  Change Password
+                </Text>
+              )}
             </Button>
           </View>
         </View>
