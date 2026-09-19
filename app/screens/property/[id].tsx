@@ -60,9 +60,9 @@ export default function PropertyDetails() {
 
   if (loading) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-white">
+      <View className="flex-1 h-full items-center justify-center bg-white">
         <ActivityIndicator size="large" color="#6941C6" />
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -329,7 +329,17 @@ export default function PropertyDetails() {
           setIsOpen={setIsOpen}
         />
         <View className=" px-4 py-3">
-          <TouchableOpacity className="items-center rounded-2xl bg-[#6941C6] py-4">
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/screens/Payment/[id]",
+                params: {
+                  id: property?._id.toString(),
+                },
+              })
+            }
+            className="items-center rounded-2xl bg-[#6941C6] py-4"
+          >
             <Text className="text-base font-bold text-white">Buy Now</Text>
           </TouchableOpacity>
         </View>

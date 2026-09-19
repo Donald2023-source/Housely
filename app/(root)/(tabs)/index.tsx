@@ -31,9 +31,7 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView showsVerticalScrollIndicator={false} className="px-3">
-        {/* Header */}
         <View className="flex-row justify-between items-center">
-          {/* Location */}
           <View className="flex-row gap-3 items-center">
             <MapPin fill="#6941C6" color="#d1d5dc" size={38} />
 
@@ -44,7 +42,6 @@ export default function Index() {
             </View>
           </View>
 
-          {/* Actions */}
           <View className="flex-row items-center gap-3">
             <TouchableOpacity className="p-2.5 border border-gray-300 rounded-full">
               <BellDot color="#1F2A37" size={22} />
@@ -56,7 +53,6 @@ export default function Index() {
           </View>
         </View>
 
-        {/* Search */}
         <TouchableOpacity
           onPress={() => router.push("/search")}
           className="p-4 mt-5 rounded-2xl border border-gray-300 flex-row justify-between items-center"
@@ -70,7 +66,6 @@ export default function Index() {
           <SlidersHorizontal color="#6941C6" size={21} />
         </TouchableOpacity>
 
-        {/* Promo */}
         <View className="w-full rounded-2xl mt-4 relative h-[140px] overflow-hidden">
           <Image
             className="w-full h-full"
@@ -87,16 +82,16 @@ export default function Index() {
           </View>
         </View>
 
-        {/* Featured Properties */}
         <View className="flex-row justify-between items-center mt-6">
           <Text className="text-xl font-bold">Featured Properties</Text>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push("/screens/FeaturedProperty")}
+          >
             <Text className="text-[#6941C6] font-semibold">See all</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Horizontal Properties */}
         <FlatList
           data={Properties?.data}
           keyExtractor={(item) => String(item?._id)}
@@ -117,33 +112,31 @@ export default function Index() {
                 />
 
                 <View className="absolute bg-black/40 rounded-2xl w-full h-full backdrop-blur-lg" />
-                {/* Listing type */}
+
                 <View className="absolute top-3 left-3 bg-white px-3 py-1.5 rounded-full">
                   <Text className="text-xs font-semibold text-[#6941C6]">
-                    {item.price}
+                    {item.price.toLocaleString()}
                   </Text>
                 </View>
-
-                {/* Favorite */}
               </View>
               <View className="flex-row mt-3 px-3 absolute gap-2 bottom-5 items-center justify-between w-full">
                 <View className="">
                   <Text
-                    className="text-white text-xl font-semibold"
+                    className="text-white text-xl font-bold"
                     numberOfLines={1}
                   >
                     {item.name.slice(0, 8)}
                   </Text>
 
-                  <View className="flex-row items-center">
-                    <MapPin color={"gray"} />
-                    <Text className="text-gray-400 text-base">
+                  <View className="flex-row gap-2 items-center">
+                    <MapPin size={20} color={"gray"} />
+                    <Text className="text-gray-200">
                       {item.location?.address}
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity className="w-10 items-center justify-center  h-10  bg-white p-2 rounded-full">
-                  <Heart size={20} />
+                <TouchableOpacity className="w-8 items-center justify-center  h-8  bg-white p-2 rounded-full">
+                  <Heart size={15} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
@@ -162,7 +155,6 @@ export default function Index() {
             </TouchableOpacity>
           </View>
 
-          {/* Nearby Properties */}
           <FlatList
             data={Properties?.data}
             scrollEnabled={false}
@@ -174,7 +166,18 @@ export default function Index() {
               marginBottom: 16,
             }}
             renderItem={({ item }) => (
-              <TouchableOpacity activeOpacity={0.9} className="flex-1 my-3">
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/screens/property/[id]",
+                    params: {
+                      id: item?._id.toString(),
+                    },
+                  })
+                }
+                activeOpacity={0.9}
+                className="flex-1 my-3"
+              >
                 <View className="flex-row border-b gap-3 overflow-hidden h-fit border-gray-100">
                   <View className="relative  h-fit">
                     <Image
@@ -185,15 +188,18 @@ export default function Index() {
                   </View>
 
                   <View className="p-3 flex-1 gap-2">
-                    <Text className="font-semibold text-base">{item.name}</Text>
-                    <View className="flex-row items-center">
+                    <Text className="font-semibold text-lg">{item.name}</Text>
+                    <View className="flex-row gap-2 items-center">
                       <MapPin color={"gray"} />
                       <Text className="text-gray-400 text-base">
                         {item.location?.address}
                       </Text>
                     </View>
                     <View className="flex-row items-center justify-between">
-                      <Text>{item.price}</Text>
+                      <Text className="font-semibold text-primary">
+                        {" "}
+                        {item.price?.toLocaleString()}
+                      </Text>
                       <Text className="text-gray-400 text-base font-semibold">
                         {"4.5"}
                       </Text>
