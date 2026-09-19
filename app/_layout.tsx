@@ -4,7 +4,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { HeroUINativeProvider } from "heroui-native";
 import { useEffect } from "react";
-import { Appearance, View } from "react-native";
+import { Appearance, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
@@ -29,7 +29,7 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return <View>Loading ...</View>;
+    return <Text>Loading ...</Text>;
   }
 
   return (

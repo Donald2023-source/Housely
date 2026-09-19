@@ -15,7 +15,6 @@ export default function Index() {
   if (user?.isSignedIn) {
     return <Redirect href="/(root)/(tabs)" />;
   }
-
   const currentSlide = onboardingData[active];
 
   const handleNext = () => {

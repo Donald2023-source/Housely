@@ -5,5 +5,9 @@ const images = {
   logo: require("../assets/images/Housely_logo.png"),
   googleIcon: require("../assets/images/google.png"),
   successImage: require("../assets/images/success.png"),
+  authOnb: require("../assets/images/authOnb.png"),
+  houseImg: require("../assets/images/houseimg.jpg"),
+  promoImg: require("../assets/images/Promo.png"),
+  map: require("../assets/images/map.jpg"),
 };
 export default images;

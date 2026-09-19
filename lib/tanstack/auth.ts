@@ -8,7 +8,7 @@ function useSignUp() {
   return useMutation({
     mutationFn: async (data: RegisterFormData) => {
       const response = await api.post("/auth/register", data);
-      return response.data.data;
+      return response.data;
     },
   });
 }
