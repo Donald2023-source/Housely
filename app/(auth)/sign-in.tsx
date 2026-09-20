@@ -66,7 +66,7 @@ const SignIn = () => {
         isSignedIn: true,
       });
 
-      router.push("/(root)/(tabs)");
+      router.replace("/(root)/(tabs)");
     } catch (error: any) {
       console.log("Signup error:", error.response?.data);
 

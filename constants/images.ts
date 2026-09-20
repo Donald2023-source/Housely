@@ -9,5 +9,6 @@ const images = {
   houseImg: require("../assets/images/houseimg.jpg"),
   promoImg: require("../assets/images/Promo.png"),
   map: require("../assets/images/map.jpg"),
+  paypal: require("../assets/images/paypal.png")
 };
 export default images;

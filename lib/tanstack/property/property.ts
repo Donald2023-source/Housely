@@ -7,11 +7,9 @@ async function fetchProperties() {
   return response.data?.data;
 }
 
-
 export function useFetchProperties() {
   return useQuery({
     queryKey: ["properties"],
     queryFn: fetchProperties,
   });
 }
-

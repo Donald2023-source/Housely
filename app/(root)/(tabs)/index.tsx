@@ -1,6 +1,7 @@
 import images from "@/constants/images";
 import { useFetchProperties } from "@/lib/tanstack/property/property";
 import { useRouter } from "expo-router";
+import { useToast } from "heroui-native";
 
 import {
   BellDot,
@@ -9,6 +10,7 @@ import {
   MessageCircleMore,
   Search,
   SlidersHorizontal,
+  X,
 } from "lucide-react-native";
 
 import {
@@ -26,8 +28,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const Properties = useFetchProperties();
-  console.log(Properties);
+  const { toast } = useToast();
   const router = useRouter();
+  // console.log(Properties);
+
+  
   return (
     <SafeAreaView className="flex-1">
       <ScrollView showsVerticalScrollIndicator={false} className="px-3">

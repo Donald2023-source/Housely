@@ -5,11 +5,138 @@
 
 @theme {
   --color-primary: " #7F56D9";
-
-
 }
 
+.payment-page {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f5f8fc;
+  color: #10233f;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+.payment-card {
+  width: min(100%, 382px);
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px 32px;
+  border: 1px solid #e5ebf3;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 24px 60px rgba(38, 72, 115, 0.1),
+    0 3px 10px rgba(38, 72, 115, 0.04);
+  text-align: center;
+}
+
+.status-icon {
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8f0ff;
+  color: #2362d8;
+}
+
+.status-icon-success {
+  background: #e5f8ed;
+  color: #159447;
+  animation: success-pop 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.loader-ring {
+  width: 39px;
+  height: 39px;
+  border: 3px solid #c8d9f7;
+  border-top-color: #2362d8;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.success-check {
+  width: 40px;
+  height: 40px;
+  animation: check-in 360ms ease-out both;
+}
+
+.status-copy {
+  margin-top: 29px;
+}
+
+.eyebrow {
+  margin: 0 0 9px;
+  color: #6e7f96;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.status-copy h1 {
+  margin: 0;
+  color: #10233f;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.supporting-copy {
+  max-width: 276px;
+  margin: 12px auto 0;
+  color: #718097;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.secure-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 34px;
+  color: #8291a5;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes success-pop {
+  from {
+    transform: scale(0.7);
+    opacity: 0.2;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes check-in {
+  from {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+  }
+  to {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-ring,
+  .status-icon-success,
+  .success-check {
+    animation: none;
+  }
+}
 
 /* Path to the heroui-native lib inside node_modules relative to global.css */
 /* Examples:
