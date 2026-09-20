@@ -20,8 +20,8 @@ export default function BottomNav() {
       activeIcon: "search-outline",
     },
     {
-      name: "Chats",
-      route: "/chats",
+      name: "Booking",
+      route: "/booking",
       icon: "chatbubble-outline",
       activeIcon: "chatbubble",
     },

@@ -46,7 +46,10 @@ export default function Index() {
           </View>
 
           <View className="flex-row items-center gap-3">
-            <TouchableOpacity className="p-2.5 border border-gray-300 rounded-full">
+            <TouchableOpacity
+              onPress={() => router.push("/screens/notifications/notifications")}
+              className="p-2.5 border border-gray-300 rounded-full"
+            >
               <BellDot color="#1F2A37" size={22} />
             </TouchableOpacity>
 
@@ -125,7 +128,7 @@ export default function Index() {
               <View className="flex-row mt-3 px-3 absolute gap-2 bottom-5 items-center justify-between w-full">
                 <View className="">
                   <Text
-                    className="text-white text-xl font-bold"
+                    className="text-white text-lg font-bold"
                     numberOfLines={1}
                   >
                     {item.name.slice(0, 8)}
@@ -149,7 +152,7 @@ export default function Index() {
         <View className="mt-6">
           {/* Header */}
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-2xl font-bold text-[#1F2937]">Nearby</Text>
+            <Text className="text-xl font-bold text-[#1F2937]">Nearby</Text>
 
             <TouchableOpacity>
               <Text className="text-[#6941C6] text-base font-medium">
@@ -186,14 +189,14 @@ export default function Index() {
                     <Image
                       source={{ uri: item.images[0] }}
                       resizeMode="cover"
-                      className="h-28 rounded-2xl w-28"
+                      className="h-24 rounded-2xl w-24"
                     />
                   </View>
 
-                  <View className="p-3 flex-1 gap-2">
-                    <Text className="font-semibold text-lg">{item.name}</Text>
+                  <View className="p-3 flex-1 gap-1">
+                    <Text className="font-semibold text-base">{item.name}</Text>
                     <View className="flex-row gap-2 items-center">
-                      <MapPin color={"gray"} />
+                      <MapPin size={18} color={"gray"} />
                       <Text className="text-gray-400 text-base">
                         {item.location?.address}
                       </Text>

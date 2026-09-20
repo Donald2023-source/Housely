@@ -1,33 +1,17 @@
 import { useFetchProperties } from "@/lib/tanstack/property/property";
 import { useRouter } from "expo-router";
-import { ArrowLeft, Heart, MapPin } from "lucide-react-native";
+import { Chip } from "heroui-native";
+import { MapPin } from "lucide-react-native";
 import { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Featured() {
+export default function UpcomingTab() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const Properties = useFetchProperties();
-  console.log(Properties);
   return (
-    <SafeAreaView className="w-full">
-      <View className="px-4">
-        <View className="flex-row items-center justify-between pt-4">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="h-11 w-11 items-center justify-center rounded-full border border-gray-200"
-          >
-            <ArrowLeft size={21} color="#1F2937" />
-          </TouchableOpacity>
-
-          <Text className="text-base font-semibold text-[#1F2937]">
-            Featured Products
-          </Text>
-          <View />
-        </View>
-      </View>
-
+    <SafeAreaView>
       <FlatList
         data={Properties?.data}
         scrollEnabled={false}
@@ -49,42 +33,42 @@ export default function Featured() {
               })
             }
             activeOpacity={0.9}
-            className="w-full my-3 px-4"
+            className="w-full"
           >
-            <View className="flex-row border-b gap-3 overflow-hidden h-fit border-gray-100">
+            <View className="flex-row  gap-3 overflow-hidden h-fit ">
               <View className="relative  h-fit">
                 <Image
                   source={{ uri: item.images[0] }}
                   resizeMode="cover"
-                  className="h-24 rounded-2xl w-24"
+                  className="h-18 rounded-2xl w-18"
                 />
               </View>
 
-              <View className="p-3 flex-1 gap-1">
-                <View className="flex-row items-center justify-between">
-                  <Text className="font-semibold text-base">
+              <View className="px-3 flex-1 gap-2">
+                <View className="flex-row">
+                  <Text className="font-medium text-black/60 text-[15px]">
                     {item.name.slice(0, 20) + "..."}
                   </Text>
-                  <Heart />
                 </View>
                 <View className="flex-row gap-1 items-center">
-                  <MapPin size={18} color={"gray"} />
-                  <Text className="text-gray-400 text-base">
+                  <MapPin size={15} color={"gray"} />
+                  <Text className="text-gray-400">
                     {item.location?.address}
                   </Text>
                 </View>
-                <View className="flex-row items-center justify-between">
-                  <Text className="font-semibold text-primary">
-                    {" "}
-                    {item.price?.toLocaleString()}
-                  </Text>
-                  <Text className="text-gray-400 text-base font-semibold">
-                    {"4.5"}
-                  </Text>
+                <View className="flex-row gap-1 justify-between items-center">
+                  <Text>12 Aug - 14 Aug</Text>
+                  <Chip
+                    variant="tertiary"
+                    color="warning"
+                    className="text-gray-400"
+                  >
+                    <Chip.Label>Waiting</Chip.Label>
+                  </Chip>
                 </View>
               </View>
             </View>
-            <View className="border-b border-gray-200 py-1" />
+            <View className="border-b border-gray-100 my-4" />
           </TouchableOpacity>
         )}
       />
