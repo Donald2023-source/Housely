@@ -10,7 +10,6 @@ import {
   MessageCircleMore,
   Search,
   SlidersHorizontal,
-  X,
 } from "lucide-react-native";
 
 import {
@@ -32,7 +31,6 @@ export default function Index() {
   const router = useRouter();
   // console.log(Properties);
 
-  
   return (
     <SafeAreaView className="flex-1">
       <ScrollView showsVerticalScrollIndicator={false} className="px-3">
