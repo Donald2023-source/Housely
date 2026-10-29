@@ -68,13 +68,11 @@ const SignIn = () => {
 
       router.replace("/(root)/(tabs)");
     } catch (error: any) {
-      console.log("Signup error:", error.response?.data);
-
       const message =
         error.response?.data?.message ||
         error.response?.data?.data?.message ||
         "Something went wrong";
-
+      console.log("Signup error:", error?.response?.data);
       toast.show({
         variant: "danger",
         label: message,

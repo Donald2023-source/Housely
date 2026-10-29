@@ -22,7 +22,7 @@ export default function BottomNav() {
     {
       name: "Booking",
       route: "/booking",
-      icon: "chatbubble-outline",
+      icon: "briefcase-outline",
       activeIcon: "chatbubble",
     },
     {
@@ -53,14 +53,11 @@ export default function BottomNav() {
           borderRadius: 35,
           overflow: "hidden",
 
-          // Glass border
           borderWidth: 1,
-          borderColor: "rgba(255,255,255,0.22)",
+          borderColor: "rgba(255,255,255,0.5)",
 
-          // Slightly darker glass
-          backgroundColor: "rgba(0,0,0,0.16)",
+          backgroundColor: "rgba(0,0,0,0.5)",
 
-          // Shadow
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -71,16 +68,16 @@ export default function BottomNav() {
         }}
       >
         <BlurView
-          intensity={55}
-          tint="dark"
+          intensity={100}
+          tint="light"
           style={{
             flex: 1,
           }}
         >
           <View
+            className="bg-[#ffffff18]"
             style={{
               flex: 1,
-              backgroundColor: "rgba(255, 255, 255, 0.7)",
             }}
           >
             <View className="flex-1 flex-row">

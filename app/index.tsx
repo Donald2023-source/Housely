@@ -7,6 +7,7 @@ import { useToast } from "heroui-native";
 import { X } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 export default function Index() {
   const [active, setActive] = useState(0);
   const { user } = useAuth();

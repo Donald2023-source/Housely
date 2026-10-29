@@ -33,7 +33,7 @@ export default function Index() {
 
   return (
     <SafeAreaView className="flex-1">
-      <ScrollView showsVerticalScrollIndicator={false} className="px-3">
+      <ScrollView showsVerticalScrollIndicator={false} className="px-3 mt-5">
         <View className="flex-row justify-between items-center">
           <View className="flex-row gap-3 items-center">
             <MapPin fill="#6941C6" color="#d1d5dc" size={38} />
@@ -47,7 +47,9 @@ export default function Index() {
 
           <View className="flex-row items-center gap-3">
             <TouchableOpacity
-              onPress={() => router.push("/screens/notifications/notifications")}
+              onPress={() =>
+                router.push("/screens/notifications/notifications")
+              }
               className="p-2.5 border border-gray-300 rounded-full"
             >
               <BellDot color="#1F2A37" size={22} />
@@ -84,12 +86,14 @@ export default function Index() {
               GET YOUR 20% CASHBACK
             </Text>
 
-            <Text className="text-white text-xs">Expired 25 Aug 2022</Text>
+            <Text className="text-white text-xs">Expires 25 Oct 2026</Text>
           </View>
         </View>
 
         <View className="flex-row justify-between items-center mt-6">
-          <Text className="text-xl font-bold">Featured Properties</Text>
+          <Text className="text-lg font-semibold text-black/60">
+            Featured Properties
+          </Text>
 
           <TouchableOpacity
             onPress={() => router.push("/screens/FeaturedProperty")}
@@ -108,13 +112,13 @@ export default function Index() {
             paddingVertical: 16,
           }}
           renderItem={({ item }) => (
-            <TouchableOpacity activeOpacity={0.9} className="w-[290px]">
-              {/* Image */}
+            <TouchableOpacity activeOpacity={0.9} className="w-72.5">
+          
               <View className="relative">
                 <Image
                   source={{ uri: item.images[0] }}
                   resizeMode="cover"
-                  className="w-full h-[230px] rounded-2xl"
+                  className="w-full h-57.5 rounded-2xl"
                 />
 
                 <View className="absolute bg-black/40 rounded-2xl w-full h-full backdrop-blur-lg" />
@@ -150,9 +154,9 @@ export default function Index() {
         />
 
         <View className="mt-6">
-          {/* Header */}
+      
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-[#1F2937]">Nearby</Text>
+            <Text className="text-lg font-bold text-black/60">Nearby</Text>
 
             <TouchableOpacity>
               <Text className="text-[#6941C6] text-base font-medium">

@@ -63,7 +63,7 @@ export default function PaymentDetails() {
   }
 
   return (
-    <View className="h-full  px-4 bg-white">
+    <SafeAreaView className="h-full  px-4 bg-white">
       {showLoader && (
         <View className="absolute  inset-0">
           <BlurView
@@ -299,6 +299,6 @@ export default function PaymentDetails() {
           </BottomSheet.Portal>
         </BottomSheet>
       </SafeAreaView>
-    </View>
+    </SafeAreaView>
   );
 }

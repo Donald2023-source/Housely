@@ -95,7 +95,7 @@ const ForogotPassword = () => {
               {/* Header */}
               <View className="w-full gap-2">
                 <Text className="text-2xl font-inter font-semibold">
-                  Forogot Password !
+                  Forgot Password !
                 </Text>
 
                 <Text className="text-gray-400 font-inter tracking-wide">

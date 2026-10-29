@@ -10,12 +10,14 @@ import {
   Heart,
   MapPin,
   Share2,
+  Sparkles,
   Toilet,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -301,6 +303,36 @@ export default function PropertyDetails() {
                 </Text>
               </View>
             )}
+
+            <Pressable
+              onPress={() =>
+                router.push({
+                  pathname: "/screens/vision/[id]",
+                  params: {
+                    id: property?._id.toString(),
+                  },
+                })
+              }
+              className="mt-5 flex-row items-center rounded-2xl border border-[#E8DFFB] bg-[#F8F5FF] p-4"
+            >
+              <View className="h-12 w-12 items-center justify-center rounded-xl bg-white">
+                <Sparkles size={23} color="#6941C6" />
+              </View>
+
+              <View className="ml-3 flex-1">
+                <Text className="text-base font-semibold text-gray-900">
+                  Visualise this home
+                </Text>
+                <Text className="mt-1 text-sm leading-5 text-gray-500">
+                  Explore paint colours and preview a fresh look for this
+                  property.
+                </Text>
+              </View>
+
+              <Text className="ml-2 text-lg font-semibold text-[#6941C6]">
+                →
+              </Text>
+            </Pressable>
 
             <View className="ml-3 flex-1">
               <Text className="font-semibold text-[#1F2937]">
